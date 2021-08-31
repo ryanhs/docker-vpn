@@ -27,16 +27,19 @@ RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/
 # collect env
 ENV VPN_HOST xxxxxxx.xxx
 ENV VPN_USER xxxxxxxxx
+ENV VPN_PASS xxxxxxxxx
 ENV SSH_USER xxxxxxxxx
 ENV SSH_PASS xxxxxxxxx
 
 
 # entrypoint & supervisord
-ADD entrypoint.sh /entrypoint.sh
+ADD bin /usr/local/bin
+RUN chmod +x /usr/local/bin/*
+
 ADD supervisord.conf /etc/supervisord.conf
-RUN chmod +x /entrypoint.sh
 EXPOSE 22
-ENTRYPOINT ["/entrypoint.sh"]
+EXPOSE 443
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 
 # example
